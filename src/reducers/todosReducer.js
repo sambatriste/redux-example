@@ -5,7 +5,7 @@
  * @param action
  * @returns {*}
  */
-const todos = (state = [], action) => {  // Reducerはstateとactionを引数に取る
+const todosReducer = (state = [], action) => {  // Reducerはstateとactionを引数に取る
   switch (action.type) {
     case 'ADD_TODO':
       return [
@@ -27,4 +27,4 @@ const todos = (state = [], action) => {  // Reducerはstateとactionを引数に
   }
 }
 
-export default todos
+export default todosReducer
