@@ -1,33 +1,25 @@
-import React from 'react'
 import { connect } from 'react-redux'
 import { addTodo } from '../actions'
+import NewTodo from '../components/NewTodo'
 
-let AddTodo = ({ dispatch }) => {
-  let input
-  return (
-    <div>
-      <form
-        onSubmit={e => {
-          e.preventDefault()
-          if (!input.value.trim()) {
-            return
-          }
-          dispatch(addTodo(input.value))
-          input.value = ''
-        }}
-      >
-        <input
-          ref={node => {
-            input = node
-          }}
-        />
-        <button type='submit'>
-          Add Todo
-        </button>
-      </form>
-    </div>
-  )
+
+/**
+ * Reduxのdispatchとコンポーネント自身のpropsから、新しいpropsを作成する。
+ * @param dispatch Reduxのdispatch
+ * @param ownProps 使用しない
+ * @returns {{onClick: function(*=)}}
+ */
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onClick: (text) => {
+      const action = addTodo(text);  // Action Creatorを呼び出して、Actionを作成する
+      dispatch(action)               // 作成したActionをdispatchする->Reducerが呼び出される
+    }
+  }
 }
-AddTodo = connect()(AddTodo)
+const AddTodo = connect(     // ReactコンポーネントとReduxのストアを結びつける.
+  null,
+  mapDispatchToProps
+)(NewTodo)
 
 export default AddTodo

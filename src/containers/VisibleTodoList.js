@@ -2,6 +2,12 @@ import { connect } from 'react-redux'
 import { toggleTodo } from '../actions'
 import TodoList from '../components/TodoList'
 
+/**
+ * TODO一覧からフィルターされたTODOを取得する。
+ * @param todos TODO一覧
+ * @param filter フィルターの種類
+ * @returns {*} フィルターされたTODO
+ */
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
     case 'SHOW_COMPLETED':
@@ -14,21 +20,39 @@ const getVisibleTodos = (todos, filter) => {
   }
 }
 
+/**
+ * 与えられたステートから、コンポーネントにpropsとして渡す値を作成する。
+ * @param state ステート
+ * @returns {{todos: *}} フィルターされたTODO一覧
+ */
 const mapStateToProps = state => {
+  // フィルターされたTODO一覧
+  const visibleTodos = getVisibleTodos(state.todos, state.visibilityFilter);
   return {
-    todos: getVisibleTodos(state.todos, state.visibilityFilter)
+    todos: visibleTodos
   }
 }
 
+/**
+ * * Reduxのdispatchとコンポーネント自身のpropsから、新しいpropsを作成する。
+ * TODOがクリックされたときのコールバック関数(onTodoClick)を持つpropsを作成する。
+ *
+ * @param dispatch Reduxのdispatch
+ * @returns {{onTodoClick: function(*=)}} TODOがクリックされたときのコールバック
+ */
 const mapDispatchToProps = dispatch => {
   return {
     onTodoClick: id => {
-      dispatch(toggleTodo(id))
+      const action = toggleTodo(id);  // Action Creatorを呼び出して、Actionを作成する
+      dispatch(action)                // 作成したActionをdispatchする->Reducerが呼び出される
     }
   }
 }
 
-const VisibleTodoList = connect(
+/**
+ * Container Component
+ */
+const VisibleTodoList = connect(   // ReactコンポーネントとReduxのストアを結びつける.
   mapStateToProps,
   mapDispatchToProps
 )(TodoList)
