@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Link = ({ active, children, onClick }) => {
+const Link = ({ active,         // FilterLinkのmapStateToPropsで設定されたもの
+                children,       // childrenは<FilterLink>のchildrenを指す(All,Active,Completed)
+                onClick }) => { // FilterLinkのmapDispatchToPropsで設定されたもの
   if (active) {
     return <span>{children}</span>
   }
@@ -10,7 +12,7 @@ const Link = ({ active, children, onClick }) => {
     <a href=""
        onClick={e => {
          e.preventDefault()
-         onClick()
+         onClick()     // 渡されたコールバックを呼び出す->新しいActionがReducerにdispatchされる
        }}
     >
       {children}
