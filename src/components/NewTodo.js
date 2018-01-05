@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from "prop-types";
+import { connect } from 'react-redux'
+import { addTodo } from "../actions";
 
 /**
  * 新しいTODOを入力するPresentation Component.
@@ -7,7 +9,7 @@ import PropTypes from "prop-types";
  * @returns {*} 新しいTODO入力
  * @constructor
  */
-const NewTodo = ({ onClick }) => {
+const NewTodoComponent = ({ onClick }) => {
   let input
   return (
     <div>
@@ -26,8 +28,27 @@ const NewTodo = ({ onClick }) => {
   )
 }
 
-NewTodo.propTypes = {
+NewTodoComponent.propTypes = {
   dispatch: PropTypes.func.isRequired,
 }
+
+
+/**
+ * Reduxのdispatchとコンポーネント自身のpropsから、新しいpropsを作成する。
+ * @param dispatch Reduxのdispatch
+ * @param ownProps 使用しない
+ * @returns {{onClick: function(*=)}}
+ */
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onClick: (text) => {
+      const action = addTodo(text);  // Action Creatorを呼び出して、Actionを作成する
+      dispatch(action)               // 作成したActionをdispatchする->Reducerが呼び出される
+    }
+  }
+}
+
+// ReactコンポーネントとReduxのストアを結びつける.
+const NewTodo = connect(null, mapDispatchToProps)(NewTodoComponent)
 
 export default NewTodo
