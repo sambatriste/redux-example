@@ -29,7 +29,7 @@ const NewTodoComponent = ({ onClick }) => {
 }
 
 NewTodoComponent.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 }
 
 
