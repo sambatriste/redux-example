@@ -3,11 +3,11 @@ import Footer from './Footer'
 import NewTodo from './NewTodo'
 import TodoList from './TodoList'
 
-const App = () => {
+const App = ({ match: { params } }) => { // props.match.params
   return (
     <div>
       <NewTodo />
-      <TodoList />
+      <TodoList filter={params.filter || 'SHOW_ALL'}/>
       <Footer />
     </div>
   )

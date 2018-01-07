@@ -50,11 +50,12 @@ const getVisibleTodos = (todos, filter) => {
  * ステートのフィルタをTODO一覧に適用し、TODOをフィルタする。
  *
  * @param state ステート
+ * @param ownProps 自コンポーネントのプロパティ
  * @returns {{todos: *}} フィルターされたTODO一覧
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   // フィルターされたTODO一覧
-  const visibleTodos = getVisibleTodos(state.todos, state.visibilityFilter);
+  const visibleTodos = getVisibleTodos(state.todos, ownProps.filter);
   return {
     todos: visibleTodos
   }
